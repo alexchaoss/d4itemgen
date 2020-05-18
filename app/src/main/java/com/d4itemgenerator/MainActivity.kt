@@ -1,12 +1,13 @@
 package com.d4itemgenerator
 
+import android.app.Activity
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -36,21 +37,21 @@ class MainActivity : AppCompatActivity() {
 
         for(affix in generateItem.affixList){
             if(affix.length > 30){
-                height += 160
+                height += getDPMetric(35)
             }else if(affix.length > 70){
-                height += 220
+                height += getDPMetric(60)
             }else {
-                height += 80
+                height += getDPMetric(20)
             }
         }
         for(affix in generateItem.legAffixList){
             if(affix.length > 30){
-                height += 160
+                height += getDPMetric(35)
             }else{
-                height += 80
+                height += getDPMetric(20)
             }
         }
-        height += 100
+        height += getDPMetric(30)
         Log.i("HEIGHT", height.toString())
         val params = middleframe.layoutParams
         params.height = height
@@ -98,5 +99,10 @@ class MainActivity : AppCompatActivity() {
             Rarity.RARE -> rarity.setImageResource(R.drawable.rare)
             Rarity.MAGIC -> rarity.setImageResource(R.drawable.magic)
         }
+    }
+
+    fun getDPMetric(size: Int): Int {
+        val scale = this.resources.displayMetrics.density
+        return (size * scale + 0.5f).toInt()
     }
 }
