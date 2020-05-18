@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setImageRarity(generateItem: GenerateItem) {
         when (generateItem.rarity) {
-            Rarity.LEGENDARY -> rarity.setImageResource(R.drawable.legendary)
+            Rarity.MYTHIC -> rarity.setImageResource(R.drawable.legendary)
             Rarity.RARE -> rarity.setImageResource(R.drawable.rare)
             Rarity.MAGIC -> rarity.setImageResource(R.drawable.magic)
         }
