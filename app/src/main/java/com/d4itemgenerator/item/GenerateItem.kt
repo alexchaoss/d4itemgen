@@ -1,4 +1,4 @@
-package com.d4itemgenerator
+package com.d4itemgenerator.item
 
 import kotlin.random.Random
 
@@ -136,7 +136,7 @@ class GenerateItem {
 
         var affixCount = intArrayOf(1, 2, 2, 2, 3).random()
         var legCount = 0
-        if (rarity == Rarity.MYTHIC) {
+        if (rarity == Rarity.LEGENDARY) {
             affixCount = 4
             legCount = intArrayOf(1, 2, 2, 2, 3).random()
         }
@@ -185,7 +185,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.MYTHIC -> rarityIndex = 2
+                    Rarity.LEGENDARY -> rarityIndex = 2
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
@@ -210,7 +210,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.MYTHIC -> rarityIndex = 2
+                    Rarity.LEGENDARY -> rarityIndex = 2
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
@@ -241,7 +241,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.MYTHIC -> rarityIndex = 2
+                    Rarity.LEGENDARY -> rarityIndex = 2
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
