@@ -154,11 +154,19 @@ class GenerateItem {
         amuletaffix = amuletaffix + legendaryaffix
 
         for (i in 1..affixCount) {
+            var affixTemp: String
+            do{
+                affixTemp = affixToChoose.random()
+            }while(affixList.contains(affixTemp))
             affixList.add(affixToChoose.random())
         }
 
         for (i in 1..legCount) {
-            legAffixList.add(legAffixToChoose.random())
+            var affixTemp: String
+            do{
+                affixTemp = affixToChoose.random()
+            }while(legAffixList.contains(affixTemp))
+            legAffixList.add(affixToChoose.random())
         }
 
         chooseAffixRange()

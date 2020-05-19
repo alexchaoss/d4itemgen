@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             } else if (affix.length > 70) {
                 height1 += getDPMetric(60)
             } else {
-                height1 += getDPMetric(20)
+                height1 += getDPMetric(25)
             }
         }
         for (affix in generateItem.legAffixList) {
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             } else if (affix.length > 70) {
                 height1 += getDPMetric(60)
             } else {
-                height1 += getDPMetric(20)
+                height1 += getDPMetric(25)
             }
         }
         height1 += getDPMetric(30)
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getDPMetric(size: Int): Int {
+    private fun getDPMetric(size: Int): Int {
         val scale = this.resources.displayMetrics.density
         return (size * scale + 0.5f).toInt()
     }
