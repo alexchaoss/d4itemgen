@@ -35,27 +35,37 @@ class MainActivity : AppCompatActivity() {
         setImageRarity(generateItem)
         addAffixToLayout(generateItem)
 
-        for(affix in generateItem.affixList){
-            if(affix.length > 30){
-                height += getDPMetric(35)
-            }else if(affix.length > 70){
-                height += getDPMetric(60)
-            }else {
-                height += getDPMetric(20)
-            }
-        }
-        for(affix in generateItem.legAffixList){
-            if(affix.length > 30){
-                height += getDPMetric(35)
-            }else{
-                height += getDPMetric(20)
-            }
-        }
-        height += getDPMetric(30)
-        Log.i("HEIGHT", height.toString())
+        height = getFrameLayoutHeight(generateItem, height)
         val params = middleframe.layoutParams
         params.height = height
         middleframe.layoutParams = params
+    }
+
+    private fun getFrameLayoutHeight(
+        generateItem: GenerateItem,
+        height: Int
+    ): Int {
+        var height1 = height
+        for (affix in generateItem.affixList) {
+            if (affix.length > 30) {
+                height1 += getDPMetric(35)
+            } else if (affix.length > 70) {
+                height1 += getDPMetric(60)
+            } else {
+                height1 += getDPMetric(20)
+            }
+        }
+        for (affix in generateItem.legAffixList) {
+            if (affix.length > 30) {
+                height1 += getDPMetric(35)
+            } else if (affix.length > 70) {
+                height1 += getDPMetric(60)
+            } else {
+                height1 += getDPMetric(20)
+            }
+        }
+        height1 += getDPMetric(30)
+        return height1
     }
 
     private fun addAffixToLayout(generateItem: GenerateItem) {

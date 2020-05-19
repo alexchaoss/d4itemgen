@@ -107,13 +107,13 @@ class GenerateItem {
         "against monsters below [5-10-15][30-25-20]% health"
     )
     var timecond = listOf(
-        "[1-1-1][4-3-2] seconds after using a skill",
-        "[2-2-2][5-4-3]  seconds after exiting a stun effect",
-        "[2-2-2][5-4-3] seconds after dashing",
-        "[2-2-2][5-4-3] seconds after a critical strike",
-        "[3-3-3][8-6-5] seconds after killing a monster",
-        "[3-3-4][8-6-5] seconds after killing an elite monster",
-        "[5-5-5][15-12-10] seconds after using a potion",
+        "for [1-1-1][4-3-2] seconds after using a skill",
+        "for [2-2-2][5-4-3]  seconds after exiting a stun effect",
+        "for [2-2-2][5-4-3] seconds after dashing",
+        "for [2-2-2][5-4-3] seconds after a critical strike",
+        "for [3-3-3][8-6-5] seconds after killing a monster",
+        "for [3-3-4][8-6-5] seconds after killing an elite monster",
+        "for [5-5-5][15-12-10] seconds after using a potion",
         "when full health",
         "when your ressource is full",
         "when under [5-10-15][30-25-20]% of your max health",
@@ -121,12 +121,12 @@ class GenerateItem {
         "when you are unstoppable"
     )
     var timecondbarb = listOf(
-        "[1-1-1][4-3-2] seconds after switching arsenal",
-        "[1-1-1][4-3-2] seconds after using a war cry"
+        "for [1-1-1][4-3-2] seconds after switching arsenal",
+        "for [1-1-1][4-3-2] seconds after using a war cry"
     )
     var timeconddruid = listOf(
-        "[1-1-1][4-3-2] seconds after shapeshifting",
-        "[3-3-3][8-6-5] seconds after one of your pet dies"
+        "for [1-1-1][4-3-2] seconds after shapeshifting",
+        "for [3-3-3][8-6-5] seconds after one of your pet dies"
     )
 
     fun generateItem() {
@@ -220,7 +220,7 @@ class GenerateItem {
         affixList[index] =
             affixList[index].replace("{dmgtype}", DamageType.values().random().damage)
                 .replace("{restype}", Resistance.values().random().res)
-                .replace("{class}", CharacterClass.values().random().classType)
+                .replace("{class}", characterClass!!.classType)
 
         if (affixList[index].contains("{timecond}") || affixList[index].contains("{timecond|monstercond}")) {
             val monsterCond = affixList[index].contains("{timecond|monstercond}")
