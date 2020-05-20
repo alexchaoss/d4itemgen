@@ -5,10 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d4itemgenerator.DeleteClickEvent
 import com.d4itemgenerator.ItemClickEvent
@@ -90,8 +92,7 @@ class MainActivity : AppCompatActivity() {
         setImageRarity(itemClickEvent.data)
         stats.removeAllViews()
         addAffixToLayout(itemClickEvent.data)
-        var height = 0
-        height = getFrameLayoutHeight(itemClickEvent.data.affixes, itemClickEvent.data.legendaryAffixes, height)
+        var height = getFrameLayoutHeight(itemClickEvent.data.affixes, itemClickEvent.data.legendaryAffixes)
         val params = middleframe.layoutParams
         params.height = height
         middleframe.layoutParams = params
@@ -128,8 +129,7 @@ class MainActivity : AppCompatActivity() {
 
         setImageRarity(item!!)
         addAffixToLayout(item!!)
-        var height = 0
-        height = getFrameLayoutHeight(generateItem.affixList, generateItem.legAffixList, height)
+        val height = getFrameLayoutHeight(generateItem.affixList, generateItem.legAffixList)
         val params = middleframe.layoutParams
         params.height = height
         middleframe.layoutParams = params
@@ -138,18 +138,24 @@ class MainActivity : AppCompatActivity() {
     private fun openPrompt() {
         val editText = EditText(this)
         editText.setTextColor(Color.WHITE)
-        val builder = AlertDialog.Builder(this,
-            R.style.Theme_AppCompat_DayNight_Dialog
-        )
+        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        params.setMargins(getDPMetric(20),0,getDPMetric(20),0)
+        params.gravity = Gravity.CENTER
+        val builder = AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
             .setTitle("Add New item")
             .setView(editText)
             .setPositiveButton("Add") { dialog, _ ->
-                saveItem(editText)
-                dialog.cancel()
+                if(editText.text.toString().length > 20){
+                    Toast.makeText(this, "Name is too long.", Toast.LENGTH_SHORT).show()
+                }else {
+                    saveItem(editText)
+                    dialog.cancel()
+                }
             }
             .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
             .create()
         builder.show()
+        editText.layoutParams = params
     }
 
     private fun removeItem(item: Item, position: Int) {
@@ -162,7 +168,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveItem(editText: EditText) {
-        item?.itemName = editText.text.toString()
+        var name = editText.text.toString()
+        if(name.length > 10){
+            var tempString = name.substring(0..name.indexOf(" ", 4))
+            tempString  += "\n" + name.subSequence(name.indexOf(" ", 4) + 1, name.length)
+            name = tempString
+        }
+        item?.itemName = name
         items.add(item!!)
         itemNames.add(item?.itemName!!)
         recyclerviewmenu.adapter?.notifyDataSetChanged()
@@ -171,13 +183,13 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Item Saved", Toast.LENGTH_SHORT).show()
     }
 
-    private fun getFrameLayoutHeight(affixList: List<String>, legAffixList: List<String>, height: Int): Int {
-        var height1 = height
+    private fun getFrameLayoutHeight(affixList: List<String>, legAffixList: List<String>): Int {
+        var height = 0
         val affixes = mutableListOf<String>()
         affixes += affixList
         affixes += legAffixList
         for (affix in affixes) {
-            height1 += when {
+            height += when {
                 affix.length > 30 -> {
                     getDPMetric(35)
                 }
@@ -189,8 +201,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        height1 += getDPMetric(30)
-        return height1
+        height += getDPMetric(30)
+        return height
     }
 
     private fun addAffixToLayout(item: Item) {

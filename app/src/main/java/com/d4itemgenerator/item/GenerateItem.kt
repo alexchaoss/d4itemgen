@@ -1,5 +1,6 @@
 package com.d4itemgenerator.item
 
+import android.util.Log
 import kotlin.random.Random
 
 class GenerateItem {
@@ -157,8 +158,9 @@ class GenerateItem {
             var affixTemp: String
             do{
                 affixTemp = affixToChoose.random()
+                Log.i("TEST", affixTemp)
             }while(affixList.contains(affixTemp))
-            affixList.add(affixToChoose.random())
+            affixList.add(affixTemp)
         }
 
         for (i in 1..legCount) {
@@ -166,7 +168,7 @@ class GenerateItem {
             do{
                 affixTemp = affixToChoose.random()
             }while(legAffixList.contains(affixTemp))
-            legAffixList.add(affixToChoose.random())
+            legAffixList.add(affixTemp)
         }
 
         chooseAffixRange()
