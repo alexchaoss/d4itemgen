@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.d4itemgenerator.item.Item
 
-class MenuAdapter(var list: List<Item>, var nameList: List<String>)
+class MenuAdapter(private var list: List<Item>, private var nameList: List<String>)
     : RecyclerView.Adapter<MenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {

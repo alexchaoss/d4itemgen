@@ -9,9 +9,9 @@ class GenerateItem {
     var rarity: Rarity? = null
     var legAffixList = mutableListOf<String>()
     var affixList = mutableListOf<String>()
-    var characterClass: CharacterClass? = null
+    private var characterClass: CharacterClass? = null
 
-    var amuletaffix = listOf(
+    private var amuletaffix = listOf(
         "+[1-5-10][50-40-30] All Resistances",
         "Cannot be frozen",
         "+[25-15-5][50-25-10]% Reduced Cooldown Time {timecond}",
@@ -25,12 +25,12 @@ class GenerateItem {
         "+[1-1-1][3-2-1] to all {class} Ranks",
         "+[5-8-10][50-40-25]% Magic Find"
     )
-    var amuletcasteraffix = listOf(
+    private var amuletcasteraffix = listOf(
         "+[5-5-8][25-20-15]% Faster Cast Rate",
         "+[5-10-15][50-40-30]% Faster Cast Rate {timecond}"
     )
-    var ringaffix = amuletaffix;
-    var gloveaffix = listOf(
+    private var ringaffix = amuletaffix
+    private var gloveaffix = listOf(
         "Increases attack speed by [1-3-3][10-8-5]%",
         "Increases attack speed by [8-5-5][20-15-10]% {timecond}",
         "+[5-5-5][25-20-15]% Damage",
@@ -38,41 +38,38 @@ class GenerateItem {
         "+[50-50-50][250-200-150]% Damage {timecond|monstercond}",
         "+[50-50-50][250-200-150]% {dmgtype} Damage {timecond|monstercond}"
     )
-    var armoraffix = listOf(
+    private var armoraffix = listOf(
         "+[5-5-5][25-20-15]% Health",
         "+[3-3-5][25-20-15]% Ranged Damage Reduction",
         "+[3-3-5][25-20-15]% Melee Damage Reduction",
         "+[5-3-2][25-12-8]% Damage Reduction"
     )
-    var chestaffix = listOf<String>()
-    var pantsaffix = listOf<String>()
-    var helmetsaffix = listOf<String>()
-    var bootsaffix = listOf(
+    private var bootsaffix = listOf(
         "+[5-5-10][25-20-15]% Movement Speed",
         "+[1-5-10][50-40-30]% Movement Speed {timecond}"
     )
-    var weaponaffix = listOf(
+    private var weaponaffix = listOf(
         "+[5-5-5][25-20-15]% Damage",
         "+[5-5-5][25-20-15]% {dmgtype} Damage",
         "+[50-50-50][250-200-150]% Damage {timecond|monstercond}",
         "+[50-50-50][250-200-150]% {dmgtype} Damage {timecond|monstercond}"
     )
-    var weaponaffixnoncaster = listOf(
+    private var weaponaffixnoncaster = listOf(
         "Increases attack speed by [1-3-3][10-8-5]%",
         "Increases attack speed by [8-5-5][20-15-10]% {timecond}",
         "+[5-10-20][100-80-50]% Physical Damage converted to {restype}"
     )
-    var weaponaffixcaster = listOf(
+    private var weaponaffixcaster = listOf(
         "+[5-5-8][25-20-15]% Faster Cast Rate",
         "+[5-10-15][50-40-30]% Faster Cast Rate {timecond}"
     )
-    var shieldaffix = listOf(
+    private var shieldaffix = listOf(
         "+[1-5-10][50-40-30] All Resistances",
         "Cannot be frozen",
         "+[5-5-10][50-40-30]% Damage after blocking an attack",
         "+[1-1-1][25-20-15]% Increased block chance"
     )
-    var affix = listOf(
+    private var affix = listOf(
         "+[5-15-20][100-50-35]% Health Regeneration",
         "+[5-15-20][100-50-35]% Ressource Regeneration",
         "+[5-5-10][50-40-30] {restype} Resistance",
@@ -83,7 +80,7 @@ class GenerateItem {
         "+[1-1-1][5-3-2] to a {class} Skill",
         "+[1-1-1][5-4-3]% Leech Life"
     )
-    var legendaryaffix = listOf(
+    private var legendaryaffix = listOf(
         "Slain monsters rest in peace",
         "+[5-15-5][100-50-35]% Chance to split projectiles",
         "+[5-5-5][50-40-10] {restype} Absorb",
@@ -94,8 +91,7 @@ class GenerateItem {
         "Town portal casting time reduced by half",
         "Potion cooldown reduced by [1-1-1][3-2-3] seconds"
     )
-
-    var monstercond = listOf(
+    private var monstercond = listOf(
         "against demons",
         "against undead",
         "against stunned targets",
@@ -107,7 +103,7 @@ class GenerateItem {
         "against poisoned monsters",
         "against monsters below [5-10-15][30-25-20]% health"
     )
-    var timecond = listOf(
+    private var timecond = listOf(
         "for [1-1-1][4-3-2] seconds after using a skill",
         "for [2-2-2][5-4-3]  seconds after exiting a stun effect",
         "for [2-2-2][5-4-3] seconds after dashing",
@@ -121,11 +117,11 @@ class GenerateItem {
         "when slowed",
         "when you are unstoppable"
     )
-    var timecondbarb = listOf(
+    private var timecondbarb = listOf(
         "for [1-1-1][4-3-2] seconds after switching arsenal",
         "for [1-1-1][4-3-2] seconds after using a war cry"
     )
-    var timeconddruid = listOf(
+    private var timeconddruid = listOf(
         "for [1-1-1][4-3-2] seconds after shapeshifting",
         "for [3-3-3][8-6-5] seconds after one of your pet dies"
     )
@@ -135,11 +131,15 @@ class GenerateItem {
         slot = Slot.values()[(0..8).random()]
         characterClass = CharacterClass.values()[(0..4).random()]
 
-        var affixCount = intArrayOf(1, 2, 2, 2, 3).random()
+        var affixCount = 0
         var legCount = 0
-        if (rarity == Rarity.LEGENDARY) {
-            affixCount = 4
-            legCount = intArrayOf(1, 2, 2, 2, 3).random()
+        when (rarity) {
+            Rarity.LEGENDARY -> {
+                affixCount = 4
+                legCount = intArrayOf(1, 2, 2, 2, 3).random()
+            }
+            Rarity.RARE -> affixCount = intArrayOf(1, 2, 2, 2, 3, 3, 4).random()
+            Rarity.MAGIC -> affixCount = intArrayOf(1, 2, 2, 2, 3).random()
         }
 
         val affixToChoose = affix.toMutableList()
@@ -147,12 +147,6 @@ class GenerateItem {
 
         getAffixes(affixToChoose, characterClass!!)
         getLegAffixes(legAffixToChoose, characterClass!!)
-
-        amuletaffix = amuletaffix + gloveaffix
-        amuletaffix = amuletaffix + chestaffix
-        amuletaffix = amuletaffix + bootsaffix
-        amuletaffix = amuletaffix + weaponaffix
-        amuletaffix = amuletaffix + legendaryaffix
 
         for (i in 1..affixCount) {
             var affixTemp: String
@@ -188,6 +182,7 @@ class GenerateItem {
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
                     Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.MAGIC -> rarityIndex = 0
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
@@ -213,6 +208,7 @@ class GenerateItem {
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
                     Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.MAGIC -> rarityIndex = 0
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
@@ -244,6 +240,7 @@ class GenerateItem {
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
                     Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.MAGIC -> rarityIndex = 0
                 }
 
                 val minRange = min.split("-".toRegex())[rarityIndex].toInt()
@@ -316,6 +313,7 @@ class GenerateItem {
         legAffixToChoose: MutableList<String>,
         characterClass: CharacterClass
     ) {
+        legAffixToChoose += legendaryaffix
         if (slot != Slot.AMULET && slot != Slot.RING) {
             legAffixToChoose += amuletaffix
 

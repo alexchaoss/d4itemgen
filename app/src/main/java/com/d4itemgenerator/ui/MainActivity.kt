@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginEnd
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d4itemgenerator.DeleteClickEvent
 import com.d4itemgenerator.ItemClickEvent
@@ -92,7 +91,8 @@ class MainActivity : AppCompatActivity() {
         setImageRarity(itemClickEvent.data)
         stats.removeAllViews()
         addAffixToLayout(itemClickEvent.data)
-        var height = getFrameLayoutHeight(itemClickEvent.data.affixes, itemClickEvent.data.legendaryAffixes)
+        val height =
+            getFrameLayoutHeight(itemClickEvent.data.affixes, itemClickEvent.data.legendaryAffixes)
         val params = middleframe.layoutParams
         params.height = height
         middleframe.layoutParams = params
