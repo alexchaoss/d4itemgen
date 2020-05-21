@@ -2,6 +2,7 @@ package com.d4itemgenerator.item
 
 import android.util.Log
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 class GenerateItem {
 
@@ -138,7 +139,7 @@ class GenerateItem {
                 affixCount = 4
                 legCount = intArrayOf(1, 2, 2, 2, 3).random()
             }
-            Rarity.RARE -> affixCount = intArrayOf(1, 2, 2, 2, 3, 3, 4).random()
+            Rarity.RARE -> affixCount = intArrayOf(2, 2, 2, 3, 3, 4).random()
             Rarity.MAGIC -> affixCount = intArrayOf(1, 2, 2, 2, 3).random()
         }
 
@@ -181,7 +182,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.LEGENDARY -> Random.nextInt(0..2)
                     Rarity.MAGIC -> rarityIndex = 0
                 }
 
@@ -207,7 +208,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.LEGENDARY -> Random.nextInt(0..2)
                     Rarity.MAGIC -> rarityIndex = 0
                 }
 
@@ -239,7 +240,7 @@ class GenerateItem {
                 var rarityIndex = 0
                 when (rarity) {
                     Rarity.RARE -> rarityIndex = 1
-                    Rarity.LEGENDARY -> rarityIndex = 2
+                    Rarity.LEGENDARY -> rarityIndex = Random.nextInt(0..2)
                     Rarity.MAGIC -> rarityIndex = 0
                 }
 
