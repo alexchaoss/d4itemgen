@@ -1,8 +1,13 @@
 package com.d4itemgenerator.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Gravity
@@ -10,6 +15,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.d4itemgenerator.DeleteClickEvent
 import com.d4itemgenerator.ItemClickEvent
@@ -22,6 +28,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,6 +82,25 @@ class MainActivity : AppCompatActivity() {
         save.setOnClickListener {
             openPrompt()
         }
+
+        share.setOnClickListener {
+            val itemBitmap = getBitmapFromView()
+            val imageURI = saveImageExternal(itemBitmap)
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "image/*"
+            val bytes = ByteArrayOutputStream()
+            itemBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageURI)
+            startActivity(Intent.createChooser(shareIntent, "Select"))
+        }
+    }
+
+    private fun getBitmapFromView(): Bitmap {
+        val itemToShare =
+            Bitmap.createBitmap(itemlayout.width, itemlayout.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(itemToShare)
+        itemlayout.draw(canvas)
+        return itemToShare
     }
 
     override fun onStart() {
@@ -251,5 +280,25 @@ class MainActivity : AppCompatActivity() {
     private fun getDPMetric(size: Int): Int {
         val scale = this.resources.displayMetrics.density
         return (size * scale + 0.5f).toInt()
+    }
+
+    private fun saveImageExternal(image: Bitmap): Uri? {
+        var uri: Uri? = null
+        try {
+            val file = File(
+                getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                packageName + "to-share.png"
+            )
+            val stream = FileOutputStream(file)
+            image.compress(Bitmap.CompressFormat.PNG, 90, stream)
+            stream.close()
+            uri = FileProvider.getUriForFile(this, "$packageName.provider", file)
+        } catch (e: IOException) {
+            Log.d(
+                "EXTERNAL IMG SAVE",
+                "IOException while trying to write file for sharing: " + e.message.toString()
+            )
+        }
+        return uri
     }
 }

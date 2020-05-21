@@ -10,8 +10,8 @@ android {
         applicationId "com.d4itemgenerator"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 5
-        versionName "2.1"
+        versionCode 6
+        versionName "2.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
