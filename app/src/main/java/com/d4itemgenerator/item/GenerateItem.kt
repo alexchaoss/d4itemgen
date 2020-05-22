@@ -78,19 +78,38 @@ class GenerateItem {
         "Reduces the duration of control impairing effects by [5-5-5][20-15-10]%",
         "+[10-10-25][200-100-75] Health",
         "[1-1-1][3-2-1] Sockets",
-        "+[1-1-1][5-3-2] to a {class} Skill",
+        "+[1-1-1][3-2-1] to a {class} Skill",
         "+[1-1-1][5-4-3]% Leech Life"
     )
     private var legendaryaffix = listOf(
-        "Slain monsters rest in peace",
+        "Your attacks have up to a [1-2-3][10-7-5]% chance to spawn a hydra that will aid you in combat",
+        "+1 rank to your equipped skills",
+        "Lightning traps periodically appear around you dealing [50-100-150][300-200-100] damage after 2 seconds to nearby enemies",
+        "Your physical attacks Chill enemies. \n Enemies who are chilled enough times become Frozen",
+        "Critical strike chance increased by 20% against bleeding enemies",
         "+[5-15-5][100-50-35]% Chance to split projectiles",
         "+[5-5-5][50-40-10] {restype} Absorb",
-        "You leave a trail of fire in your wake",
         "Stunning enemies freeze them",
         "Your dash is twice as long",
         "Your dash cooldown is reduced by half",
         "Town portal casting time reduced by half",
         "Potion cooldown reduced by [1-1-1][3-2-3] seconds"
+    )
+    private var legendarybarb = listOf(
+        "Weapon mastery skills have an additionnal charge",
+        "Cut to the Bone talent activates against enemies that are hit by your shouts instead of stuns",
+        "Your shouts generate 2 fury per second while active",
+        "Upheaval ignites ground burning enemies for an additionnal [25-50-75][150-125-100] damage over 3 seconds"
+    )
+    private var legendarysorc = listOf(
+        "Cast Nova at your Teleport location",
+        "Fireball launches 3 projectiles that deal [50-50-50][60-60-60]% of normal damage",
+        "Teleport forms a rift in your path that increases your critical strike cahnce by [10-15-20][50-40-30]% for 5 seconds",
+        "Teleport grants a barrier that absorbs [5-10-15][30-25-20]% of your maximum Life for 15 seconds",
+        "Teleport moves you to a random location and costs [4-5-6][10-9-8] Mana instead of having a cooldown"
+    )
+    private var legendarydruid = listOf(
+        "Lightning strikes a nearby enemy dealing [25-50-75][150-125-100] damage whenever you shapeshift"
     )
     private var monstercond = listOf(
         "against demons",
@@ -106,7 +125,7 @@ class GenerateItem {
     )
     private var timecond = listOf(
         "for [1-1-1][4-3-2] seconds after using a skill",
-        "for [2-2-2][5-4-3]  seconds after exiting a stun effect",
+        "for [2-2-2][5-4-3] seconds after exiting a stun effect",
         "for [2-2-2][5-4-3] seconds after dashing",
         "for [2-2-2][5-4-3] seconds after a critical strike",
         "for [3-3-3][8-6-5] seconds after killing a monster",
@@ -161,7 +180,7 @@ class GenerateItem {
         for (i in 1..legCount) {
             var affixTemp: String
             do{
-                affixTemp = affixToChoose.random()
+                affixTemp = legAffixToChoose.random()
             }while(legAffixList.contains(affixTemp))
             legAffixList.add(affixTemp)
         }
@@ -315,6 +334,17 @@ class GenerateItem {
         characterClass: CharacterClass
     ) {
         legAffixToChoose += legendaryaffix
+
+        when (characterClass) {
+            CharacterClass.BARB -> legAffixToChoose += legendarybarb
+            CharacterClass.DRUID -> legAffixToChoose += legendarydruid
+            CharacterClass.SORC -> legAffixToChoose += legendarysorc
+            CharacterClass.AMAZON -> {
+            }
+            CharacterClass.PALADIN -> {
+            }
+        }
+
         if (slot != Slot.AMULET && slot != Slot.RING) {
             legAffixToChoose += amuletaffix
 
