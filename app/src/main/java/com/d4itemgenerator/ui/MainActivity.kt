@@ -155,6 +155,7 @@ class MainActivity : AppCompatActivity() {
         item?.affixes = generateItem.affixList as ArrayList<String>
         item?.legendaryAffixes = generateItem.legAffixList as ArrayList<String>
         item?.rarity = generateItem.rarity
+        item?.slot = generateItem.slot
 
         setImageRarity(item!!)
         addAffixToLayout(item!!)
@@ -174,7 +175,7 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Add New item")
             .setView(editText)
             .setPositiveButton("Add") { dialog, _ ->
-                if(editText.text.toString().length > 20){
+                if (editText.text.toString().length > 15) {
                     Toast.makeText(this, "Name is too long.", Toast.LENGTH_SHORT).show()
                 }else {
                     saveItem(editText)
@@ -197,13 +198,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveItem(editText: EditText) {
-        var name = editText.text.toString()
-        if(name.length > 10){
-            var tempString = name.substring(0..name.indexOf(" ", 4))
-            tempString  += "\n" + name.subSequence(name.indexOf(" ", 4) + 1, name.length)
-            name = tempString
-        }
-        item?.itemName = name
+        item?.itemName = editText.text.toString() + " ${item?.slot}"
         items.add(item!!)
         itemNames.add(item?.itemName!!)
         recyclerviewmenu.adapter?.notifyDataSetChanged()

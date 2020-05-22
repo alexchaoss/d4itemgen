@@ -10,6 +10,8 @@ class Item {
     @SerializedName("item_name")
     var itemName: String? = ""
     @SerializedName("rarity")
-    var rarity: Rarity? =
-        Rarity.MAGIC
+    var rarity: Rarity? = Rarity.MAGIC
+
+    @SerializedName("slot")
+    var slot: Slot? = Slot.AMULET
 }
