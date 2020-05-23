@@ -12,6 +12,15 @@ class GenerateItem {
     var affixList = mutableListOf<String>()
     private var characterClass: CharacterClass? = null
 
+    private var defenseStat = " [750-1000-1250][1750-1500-1250] Defense"
+    private var attackStat = " [750-1000-1250][1750-1500-1250] Attack"
+
+    private var powerAffixes = listOf(
+        "+[5-10-15][30-15-10] Angelic Power",
+        "+[5-10-15][30-15-10] Demonic Power",
+        "+[5-10-15][30-15-10] Ancestral Power"
+    )
+
     private var amuletaffix = listOf(
         "+[1-5-10][50-40-30] All Resistances",
         "Cannot be frozen",
@@ -46,8 +55,8 @@ class GenerateItem {
         "+[5-3-2][25-12-8]% Damage Reduction"
     )
     private var bootsaffix = listOf(
-        "+[5-5-10][25-20-15]% Movement Speed",
-        "+[1-5-10][50-40-30]% Movement Speed {timecond}"
+        "+[1-5-10][25-20-15]% Movement Speed",
+        "+[1-5-10][35-30-25]% Movement Speed {timecond}"
     )
     private var weaponaffix = listOf(
         "+[5-5-5][25-20-15]% Damage",
@@ -85,7 +94,7 @@ class GenerateItem {
         "Your attacks have up to a [1-2-3][10-7-5]% chance to spawn a hydra that will aid you in combat",
         "+1 rank to your equipped skills",
         "Lightning traps periodically appear around you dealing [50-100-150][300-200-100] damage after 2 seconds to nearby enemies",
-        "Your physical attacks Chill enemies. \n Enemies who are chilled enough times become Frozen",
+        "Your physical attacks Chill enemies. Enemies who are chilled enough times become Frozen",
         "Critical strike chance increased by 20% against bleeding enemies",
         "+[5-15-5][100-50-35]% Chance to split projectiles",
         "+[5-5-5][50-40-10] {restype} Absorb",
@@ -158,12 +167,19 @@ class GenerateItem {
                 affixCount = 4
                 legCount = intArrayOf(1, 2, 2, 2, 3).random()
             }
-            Rarity.RARE -> affixCount = intArrayOf(2, 2, 2, 3, 3, 4).random()
-            Rarity.MAGIC -> affixCount = intArrayOf(1, 2, 2, 2, 3).random()
+            Rarity.RARE -> affixCount = intArrayOf(2, 3, 3, 3, 4, 4).random()
+            Rarity.MAGIC -> affixCount = intArrayOf(1, 2, 2, 3).random()
         }
 
         val affixToChoose = affix.toMutableList()
         val legAffixToChoose: MutableList<String> = mutableListOf()
+
+        if (slot == Slot.WEAPON) {
+            affixList.add(attackStat)
+        } else if (slot != Slot.WEAPON && slot != Slot.RING && slot != Slot.AMULET) {
+            affixList.add(defenseStat)
+        }
+        affixToChoose += powerAffixes
 
         getAffixes(affixToChoose, characterClass!!)
         getLegAffixes(legAffixToChoose, characterClass!!)
@@ -304,7 +320,7 @@ class GenerateItem {
                 }
             }
             Slot.RING -> affixToChoose += ringaffix
-            Slot.GLOVES -> {
+            Slot.BRACERS -> {
                 affixToChoose += gloveaffix
                 affixToChoose += armoraffix
             }
@@ -358,7 +374,7 @@ class GenerateItem {
         if (slot != Slot.BOOTS) {
             legAffixToChoose += bootsaffix
         }
-        if (slot != Slot.GLOVES) {
+        if (slot != Slot.BRACERS) {
             legAffixToChoose += gloveaffix
         }
         if (slot != Slot.SHIELD) {

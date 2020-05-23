@@ -23,6 +23,7 @@ import com.d4itemgenerator.R
 import com.d4itemgenerator.item.GenerateItem
 import com.d4itemgenerator.item.Item
 import com.d4itemgenerator.item.Rarity
+import com.d4itemgenerator.item.Slot
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         item = itemClickEvent.data
         item_name.text = itemClickEvent.data.itemName
         setImageRarity(itemClickEvent.data)
+        setItemSlot(itemClickEvent.data)
         stats.removeAllViews()
         addAffixToLayout(itemClickEvent.data)
         val height =
@@ -158,11 +160,26 @@ class MainActivity : AppCompatActivity() {
         item?.slot = generateItem.slot
 
         setImageRarity(item!!)
+        setItemSlot(item!!)
         addAffixToLayout(item!!)
         val height = getFrameLayoutHeight(generateItem.affixList, generateItem.legAffixList)
         val params = middleframe.layoutParams
         params.height = height
         middleframe.layoutParams = params
+    }
+
+    private fun setItemSlot(item: Item) {
+        when (item.slot) {
+            Slot.AMULET -> itemslot.setImageResource(R.drawable.amulet)
+            Slot.BRACERS -> itemslot.setImageResource(R.drawable.bracer)
+            Slot.WEAPON -> itemslot.setImageResource(R.drawable.weapon)
+            Slot.HELMET -> itemslot.setImageResource(R.drawable.helm)
+            Slot.CHEST_ARMOR -> itemslot.setImageResource(R.drawable.chest)
+            Slot.PANTS -> itemslot.setImageResource(R.drawable.pants)
+            Slot.BOOTS -> itemslot.setImageResource(R.drawable.boots)
+            Slot.RING -> itemslot.setImageResource(R.drawable.ring)
+            Slot.SHIELD -> itemslot.setImageResource(R.drawable.shield)
+        }
     }
 
     private fun openPrompt() {
@@ -198,7 +215,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveItem(editText: EditText) {
-        item?.itemName = editText.text.toString() + " ${item?.slot}"
+        item?.itemName = editText.text.toString() + " ${item?.slot?.slot}"
         items.add(item!!)
         itemNames.add(item?.itemName!!)
         recyclerviewmenu.adapter?.notifyDataSetChanged()
@@ -240,7 +257,15 @@ class MainActivity : AppCompatActivity() {
             affixTextView.textSize = 17f
 
             val dot = ImageView(this)
-            dot.setImageResource(R.drawable.normbullet)
+            if (affix.matches(" [0-9]+ Defense".toRegex())) {
+                dot.setImageResource(R.drawable.defensebullet)
+                affixTextView.textSize = 19f
+            } else if (affix.matches(" [0-9]+ Attack".toRegex())) {
+                dot.setImageResource(R.drawable.attackbullet)
+                affixTextView.textSize = 19f
+            } else {
+                dot.setImageResource(R.drawable.normbullet)
+            }
             statsLayout.addView(dot)
             statsLayout.addView(affixTextView)
 
