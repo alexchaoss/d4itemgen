@@ -124,9 +124,12 @@ class MainActivity : AppCompatActivity() {
         addAffixToLayout(itemClickEvent.data)
         val height =
             getFrameLayoutHeight(itemClickEvent.data.affixes, itemClickEvent.data.legendaryAffixes)
-        val params = middleframe.layoutParams
-        params.height = height
-        middleframe.layoutParams = params
+        val paramsLeft = left_border.layoutParams
+        paramsLeft.height = height
+        left_border.layoutParams = paramsLeft
+        val paramsRight = right_border.layoutParams
+        paramsRight.height = height
+        right_border.layoutParams = paramsRight
         saveditemmenu.visibility = View.GONE
     }
 
@@ -163,9 +166,12 @@ class MainActivity : AppCompatActivity() {
         setItemSlot(item!!)
         addAffixToLayout(item!!)
         val height = getFrameLayoutHeight(generateItem.affixList, generateItem.legAffixList)
-        val params = middleframe.layoutParams
-        params.height = height
-        middleframe.layoutParams = params
+        val paramsLeft = left_border.layoutParams
+        paramsLeft.height = height
+        left_border.layoutParams = paramsLeft
+        val paramsRight = right_border.layoutParams
+        paramsRight.height = height
+        right_border.layoutParams = paramsRight
     }
 
     private fun setItemSlot(item: Item) {
@@ -231,18 +237,27 @@ class MainActivity : AppCompatActivity() {
         affixes += legAffixList
         for (affix in affixes) {
             height += when {
-                affix.length > 30 -> {
-                    getDPMetric(35)
+                affix.length <= 38 -> {
+                    if (affix.matches(" [0-9]+ Defense".toRegex()) || affix.matches(" [0-9]+ Weapon Attack".toRegex())) {
+                        getDPMetric(30)
+                    } else {
+                        getDPMetric(28)
+                    }
                 }
-                affix.length > 70 -> {
-                    getDPMetric(60)
+                affix.length > 65 -> {
+                    getDPMetric(55)
+                }
+                affix.length > 85 -> {
+                    getDPMetric(70)
+                }
+                affix.length > 120 -> {
+                    getDPMetric(80)
                 }
                 else -> {
-                    getDPMetric(25)
+                    getDPMetric(52)
                 }
             }
         }
-        height += getDPMetric(30)
         return height
     }
 
@@ -256,18 +271,24 @@ class MainActivity : AppCompatActivity() {
             affixTextView.setTextColor(Color.parseColor("#faebcc"))
             affixTextView.textSize = 17f
 
+
             val dot = ImageView(this)
             if (affix.matches(" [0-9]+ Defense".toRegex())) {
-                dot.setImageResource(R.drawable.defensebullet)
+                dot.setImageResource(R.drawable.defense_bullet)
                 affixTextView.textSize = 19f
-            } else if (affix.matches(" [0-9]+ Attack".toRegex())) {
-                dot.setImageResource(R.drawable.attackbullet)
+            } else if (affix.matches(" [0-9]+ Weapon Attack".toRegex())) {
+                dot.setImageResource(R.drawable.attack_bullet)
                 affixTextView.textSize = 19f
             } else {
                 dot.setImageResource(R.drawable.normbullet)
             }
+
             statsLayout.addView(dot)
             statsLayout.addView(affixTextView)
+
+            val imageParams = dot.layoutParams as LinearLayout.LayoutParams
+            imageParams.setMargins(getDPMetric(5), getDPMetric(0), getDPMetric(5), 0)
+            dot.layoutParams = imageParams
 
             stats.addView(statsLayout)
         }
@@ -282,8 +303,13 @@ class MainActivity : AppCompatActivity() {
 
             val dot = ImageView(this)
             dot.setImageResource(R.drawable.legbullet)
+
             statsLayout.addView(dot)
             statsLayout.addView(affixTextView)
+
+            val imageParams = dot.layoutParams as LinearLayout.LayoutParams
+            imageParams.setMargins(getDPMetric(5), getDPMetric(0), getDPMetric(5), 0)
+            dot.layoutParams = imageParams
 
             stats.addView(statsLayout)
         }
@@ -291,9 +317,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setImageRarity(item: Item) {
         when (item.rarity) {
-            Rarity.LEGENDARY -> rarity.setImageResource(R.drawable.legendary)
-            Rarity.RARE -> rarity.setImageResource(R.drawable.rare)
-            Rarity.MAGIC -> rarity.setImageResource(R.drawable.magic)
+            Rarity.LEGENDARY -> rarity.setImageResource(R.drawable.legendary_new)
+            Rarity.RARE -> rarity.setImageResource(R.drawable.new_rare)
+            Rarity.MAGIC -> rarity.setImageResource(R.drawable.magic_new)
         }
     }
 

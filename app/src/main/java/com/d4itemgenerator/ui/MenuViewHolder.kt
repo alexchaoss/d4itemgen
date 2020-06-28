@@ -36,9 +36,9 @@ class MenuViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         itemName?.text = name
         setItemSlot(item)
         when (item.rarity) {
-            Rarity.LEGENDARY -> rarity?.setImageResource(R.drawable.legendary)
-            Rarity.RARE -> rarity?.setImageResource(R.drawable.rare)
-            Rarity.MAGIC -> rarity?.setImageResource(R.drawable.magic)
+            Rarity.LEGENDARY -> rarity?.setImageResource(R.drawable.legendary_new)
+            Rarity.RARE -> rarity?.setImageResource(R.drawable.new_rare)
+            Rarity.MAGIC -> rarity?.setImageResource(R.drawable.magic_new)
         }
 
         layout?.setOnClickListener{

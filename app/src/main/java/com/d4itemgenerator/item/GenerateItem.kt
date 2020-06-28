@@ -13,7 +13,7 @@ class GenerateItem {
     private var characterClass: CharacterClass? = null
 
     private var defenseStat = " [750-1000-1250][1750-1500-1250] Defense"
-    private var attackStat = " [750-1000-1250][1750-1500-1250] Attack"
+    private var attackStat = " [750-1000-1250][1750-1500-1250] Weapon Attack"
 
     private var powerAffixes = listOf(
         "+[5-10-15][30-15-10] Angelic Power",
@@ -83,12 +83,13 @@ class GenerateItem {
         "+[5-15-20][100-50-35]% Health Regeneration",
         "+[5-15-20][100-50-35]% Ressource Regeneration",
         "+[5-5-10][50-40-30] {restype} Resistance",
-        "+[5-5-8][50-25-15]% experience gained",
-        "Reduces the duration of control impairing effects by [5-5-5][20-15-10]%",
         "+[10-10-25][200-100-75] Health",
+        "+[1-2-3][8-7-6]% Dodge Chance",
+        "[5-5-5][20-15-10]% Control Duration Bonus",
         "[1-1-1][3-2-1] Sockets",
         "+[1-1-1][3-2-1] to a {class} Skill",
-        "+[1-1-1][5-4-3]% Leech Life"
+        "+[1-1-1][5-4-3]% Leech Life",
+        "[4-8-12][30-25-20]% Gem strength in this item"
     )
     private var legendaryaffix = listOf(
         "Your attacks have up to a [1-2-3][10-7-5]% chance to spawn a hydra that will aid you in combat",
@@ -102,23 +103,30 @@ class GenerateItem {
         "Your dash is twice as long",
         "Your dash cooldown is reduced by half",
         "Town portal casting time reduced by half",
-        "Potion cooldown reduced by [1-1-1][3-2-3] seconds"
+        "Potion cooldown reduced by [1-1-1][3-2-3] seconds",
+        "+[5-5-8][50-25-15]% experience gained"
     )
     private var legendarybarb = listOf(
-        "Weapon mastery skills have an additionnal charge",
-        "Cut to the Bone talent activates against enemies that are hit by your shouts instead of stuns",
-        "Your shouts generate 2 fury per second while active",
-        "Upheaval ignites ground burning enemies for an additionnal [25-50-75][150-125-100] damage over 3 seconds"
+        "Weapon mastery skills have an additionnal charge.",
+        "Cut to the Bone talent activates against enemies that are hit by your shouts instead of stuns.",
+        "Your shouts generate 2 fury per second while active.",
+        "Upheaval ignites ground burning enemies for an additionnal [25-50-75][150-125-100] damage over 3 seconds.",
+        "Skills that cost Fury will consume all remaining Fury and grants a [1-2-3][6-5-4]% damage bonus for each extra point of Fury consumed.",
+        "Basic skills deals 20% less damage but generate [40-45-50][65-60-55]% more Fury."
     )
     private var legendarysorc = listOf(
         "Cast Nova at your Teleport location",
-        "Fireball launches 3 projectiles that deal [50-50-50][60-60-60]% of normal damage",
-        "Teleport forms a rift in your path that increases your critical strike cahnce by [10-15-20][50-40-30]% for 5 seconds",
-        "Teleport grants a barrier that absorbs [5-10-15][30-25-20]% of your maximum Life for 15 seconds",
-        "Teleport moves you to a random location and costs [4-5-6][10-9-8] Mana instead of having a cooldown"
+        "Fireball launches 3 projectiles that deal [50-50-50][60-60-60]% of normal damage.",
+        "Teleport forms a rift in your path that increases your critical strike chance by [10-15-20][50-40-30]% for 5 seconds.",
+        "Teleport grants a barrier that absorbs [5-10-15][30-25-20]% of your maximum Life for 15 seconds.",
+        "Teleport moves you to a random location and costs [4-5-6][10-9-8] Mana instead of having a cooldown.",
+        "When your Minor Desctruction spells critically strike, your next Major Destruction spell costs no mana and has 100% chance to critically strike."
     )
     private var legendarydruid = listOf(
-        "Lightning strikes a nearby enemy dealing [25-50-75][150-125-100] damage whenever you shapeshift"
+        "Lightning strikes a nearby enemy dealing [25-50-75][150-125-100] damage whenever you shapeshift.",
+        "Critical strikes with Storm skills form an aura of lightning around you that shocks nearby enemies for [40-45-50][65-60-55]% of the damage dealt over 5 seconds.",
+        "Storm skills damage increases Each skill damage by [10-12-14][20-18-16]% for 5 seconds.",
+        "Earth skills increase the critical strike chance of Storm skills by [10-12-14][20-18-16]% for 5 seconds."
     )
     private var monstercond = listOf(
         "against demons",
@@ -359,29 +367,6 @@ class GenerateItem {
             }
             CharacterClass.PALADIN -> {
             }
-        }
-
-        if (slot != Slot.AMULET && slot != Slot.RING) {
-            legAffixToChoose += amuletaffix
-
-            if (characterClass == CharacterClass.SORC || characterClass == CharacterClass.PALADIN) {
-                legAffixToChoose += amuletcasteraffix
-            }
-        }
-        if (slot != Slot.WEAPON) {
-            legAffixToChoose += weaponaffix
-        }
-        if (slot != Slot.BOOTS) {
-            legAffixToChoose += bootsaffix
-        }
-        if (slot != Slot.BRACERS) {
-            legAffixToChoose += gloveaffix
-        }
-        if (slot != Slot.SHIELD) {
-            legAffixToChoose += shieldaffix
-        }
-        if (slot == Slot.AMULET || slot == Slot.RING || slot == Slot.WEAPON) {
-            legAffixToChoose += armoraffix
         }
     }
 }
